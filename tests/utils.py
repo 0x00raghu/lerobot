@@ -322,7 +322,7 @@ def make_robot(robot_type: str, overrides: list[str] | None = None, mock=False) 
                 overrides.append("+cameras.laptop.mock=true")
                 overrides.append("+cameras.phone.mock=true")
 
-        elif robot_type == "koch_bimanual":
+        elif robot_type in ["so100_bimanual", "koch_bimanual"]:
             overrides.append("+leader_arms.left.mock=true")
             overrides.append("+leader_arms.right.mock=true")
             overrides.append("+follower_arms.left.mock=true")

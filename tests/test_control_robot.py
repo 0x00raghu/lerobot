@@ -167,7 +167,7 @@ def test_record_and_replay_and_policy(tmpdir, request, robot_type, mock):
     elif robot_type in ["koch", "koch_bimanual"]:
         env_name = "koch_real"
         policy_name = "act_koch_real"
-    elif robot_type == "so100":
+    elif robot_type in ["so100","so100_bimanual"]:
         env_name = "so100_real"
         policy_name = "act_so100_real"
     elif robot_type == "moss":
@@ -182,7 +182,7 @@ def test_record_and_replay_and_policy(tmpdir, request, robot_type, mock):
         f"device={DEVICE}",
     ]
 
-    if robot_type == "koch_bimanual":
+    if robot_type in ["so100_bimanual","koch_bimanual"]:
         overrides += ["env.state_dim=12", "env.action_dim=12"]
 
     overrides += ["wandb.enable=false"]

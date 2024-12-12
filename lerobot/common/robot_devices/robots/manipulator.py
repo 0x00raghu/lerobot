@@ -81,7 +81,7 @@ class ManipulatorRobotConfig:
         super().__setattr__(prop, val)
 
     def __post_init__(self):
-        if self.robot_type not in ["koch", "koch_bimanual", "aloha", "so100", "moss"]:
+        if self.robot_type not in ["koch", "koch_bimanual", "aloha", "so100", "moss", "so100_bimanual"]:
             raise ValueError(f"Provided robot type ({self.robot_type}) is not supported.")
 
 
@@ -302,7 +302,7 @@ class ManipulatorRobot:
 
         if self.robot_type in ["koch", "koch_bimanual", "aloha"]:
             from lerobot.common.robot_devices.motors.dynamixel import TorqueMode
-        elif self.robot_type in ["so100", "moss"]:
+        elif self.robot_type in ["so100", "moss", "so100_bimanual"]:
             from lerobot.common.robot_devices.motors.feetech import TorqueMode
 
         # We assume that at connection time, arms are in a rest position, and torque can
@@ -319,7 +319,7 @@ class ManipulatorRobot:
             self.set_koch_robot_preset()
         elif self.robot_type == "aloha":
             self.set_aloha_robot_preset()
-        elif self.robot_type in ["so100", "moss"]:
+        elif self.robot_type in ["so100", "moss", "so100_bimanual"]:
             self.set_so100_robot_preset()
 
         # Enable torque on all motors of the follower arms
@@ -372,7 +372,7 @@ class ManipulatorRobot:
 
                     calibration = run_arm_calibration(arm, self.robot_type, name, arm_type)
 
-                elif self.robot_type in ["so100", "moss"]:
+                elif self.robot_type in ["so100", "moss","so100_bimanual"]:
                     from lerobot.common.robot_devices.robots.feetech_calibration import (
                         run_arm_manual_calibration,
                     )
