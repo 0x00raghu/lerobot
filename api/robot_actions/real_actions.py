@@ -15,13 +15,13 @@ class RobotActionExecutor:
                 "record",
                 "--robot-path", "lerobot/configs/robot/so100.yaml",
                 "--fps", "30",
-                "--repo-id", "${HF_USER}/eval_all_black",
+                "--repo-id", "0x00raghu/pick_red_candy",
                 "--warmup-time-s", "5",
-                "--episode-time-s", "40",
-                "--reset-time-s", "10",
-                "--num-episodes", "10",
+                "--episode-time-s", "30",
+                "--reset-time-s", "1",
+                "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/all_black/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/all_red/checkpoints/last/pretrained_model"
             ]
             
             subprocess.run(cmd, check=True)
@@ -36,15 +36,15 @@ class RobotActionExecutor:
                 "python",
                 os.path.join(self.base_path, "lerobot/scripts/control_robot.py"), 
                 "record",
-                "--robot-path", "lerobot/configs/robot/so100.yaml",
+                "--robot-path", "lerobot/configs/robot/so100_orange.yaml",
                 "--fps", "30",
-                "--repo-id", "${HF_USER}/eval_all_orange",
+                "--repo-id", "0x00raghu/pick_blue_candy",
                 "--warmup-time-s", "5",
-                "--episode-time-s", "40",
-                "--reset-time-s", "10",
-                "--num-episodes", "10",
+                "--episode-time-s", "30",
+                "--reset-time-s", "1",
+                "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/all_orange/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/all_blue_og/checkpoints/last/pretrained_model"
             ]
             
             subprocess.run(cmd, check=True)
@@ -61,13 +61,13 @@ class RobotActionExecutor:
                 "record", 
                 "--robot-path", "lerobot/configs/robot/so100.yaml",
                 "--fps", "30",
-                "--repo-id", "${HF_USER}/eval_give_hand",
+                "--repo-id", "0x00raghu/candy_to_hand",
                 "--warmup-time-s", "5",
-                "--episode-time-s", "40",
-                "--reset-time-s", "10",
-                "--num-episodes", "10",
+                "--episode-time-s", "30",
+                "--reset-time-s", "1",
+                "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/give_hand/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/pick_blue_candy/checkpoints/last/pretrained_model"
             ]
             
             subprocess.run(cmd, check=True)
