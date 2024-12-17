@@ -21,7 +21,8 @@ class RobotActionExecutor:
                 "--reset-time-s", "1",
                 "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/all_red/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/all_red/checkpoints/last/pretrained_model",
+                "--single-task", "pick_candy_red"
             ]
             
             subprocess.run(cmd, check=True)
@@ -44,7 +45,8 @@ class RobotActionExecutor:
                 "--reset-time-s", "1",
                 "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/all_blue_og/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/all_blue_og/checkpoints/last/pretrained_model",
+                "--single-task", "pick_candy_blue"
             ]
             
             subprocess.run(cmd, check=True)
@@ -67,7 +69,8 @@ class RobotActionExecutor:
                 "--reset-time-s", "1",
                 "--num-episodes", "1",
                 "--play-sounds", "0",
-                "-p", "outputs/train/pick_blue_candy/checkpoints/last/pretrained_model"
+                "-p", "outputs/train/pick_blue_candy/checkpoints/last/pretrained_model",
+                "--single-task", "pick_candy_blue"
             ]
             
             subprocess.run(cmd, check=True)
