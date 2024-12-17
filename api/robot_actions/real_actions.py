@@ -20,6 +20,7 @@ class RobotActionExecutor:
                 "--episode-time-s", "40",
                 "--reset-time-s", "10",
                 "--num-episodes", "10",
+                "--play-sounds", "0",
                 "-p", "outputs/train/all_black/checkpoints/last/pretrained_model"
             ]
             
@@ -42,6 +43,7 @@ class RobotActionExecutor:
                 "--episode-time-s", "40",
                 "--reset-time-s", "10",
                 "--num-episodes", "10",
+                "--play-sounds", "0",
                 "-p", "outputs/train/all_orange/checkpoints/last/pretrained_model"
             ]
             
@@ -64,6 +66,7 @@ class RobotActionExecutor:
                 "--episode-time-s", "40",
                 "--reset-time-s", "10",
                 "--num-episodes", "10",
+                "--play-sounds", "0",
                 "-p", "outputs/train/give_hand/checkpoints/last/pretrained_model"
             ]
             

@@ -310,12 +310,62 @@ def train(cfg: DictConfig, out_dir: str | None = None, job_name: str | None = No
     torch.backends.cuda.matmul.allow_tf32 = True
 
     logging.info("make_dataset")
-    offline_dataset = make_dataset(cfg)
-    if isinstance(offline_dataset, MultiLeRobotDataset):
-        logging.info(
-            "Multiple datasets were provided. Applied the following index mapping to the provided datasets: "
-            f"{pformat(offline_dataset.repo_id_to_index , indent=2)}"
+    # Load and combine multiple datasets
+    logging.info("Loading multiple datasets")
+    if isinstance(cfg.dataset_repo_id, (list, ListConfig)):
+        datasets = []
+        combined_stats = None
+        
+        # Load all datasets
+        for repo_id in cfg.dataset_repo_id:
+            temp_cfg = deepcopy(cfg)
+            temp_cfg.dataset_repo_id = repo_id
+            dataset = make_dataset(temp_cfg)
+            
+            # Initialize stats with the first dataset
+            if combined_stats is None:
+                combined_stats = dataset.meta.stats
+            
+            datasets.append(dataset)
+        
+        # Combine datasets
+        offline_dataset = torch.utils.data.ConcatDataset(datasets)
+        # Create a meta object with stats
+        offline_dataset.meta = type('Meta', (), {'stats': combined_stats})()
+        
+        # Add num_frames and num_episodes attributes to the combined dataset
+        offline_dataset.num_frames = sum(d.num_frames for d in datasets)
+        offline_dataset.num_episodes = sum(d.num_episodes for d in datasets)
+        
+        # Log dataset information
+        logging.info(f"Combined {len(datasets)} datasets:")
+        for i, d in enumerate(datasets):
+            logging.info(f"Dataset {i} ({cfg.dataset_repo_id[i]}): {d.num_frames} frames, {d.num_episodes} episodes")
+        logging.info(f"Total: {offline_dataset.num_frames} frames, {offline_dataset.num_episodes} episodes")
+    else:
+        offline_dataset = make_dataset(cfg)
+
+    if cfg.training.get("drop_n_last_frames"):
+        shuffle = False
+        sampler = EpisodeAwareSampler(
+            offline_dataset.episode_data_index,
+            drop_n_last_frames=cfg.training.drop_n_last_frames,
+            shuffle=True,
         )
+    else:
+        shuffle = True
+        sampler = None
+
+    dataloader = torch.utils.data.DataLoader(
+        offline_dataset,
+        num_workers=cfg.training.num_workers,
+        batch_size=cfg.training.batch_size,
+        shuffle=shuffle,
+        sampler=sampler,
+        pin_memory=device.type != "cpu",
+        drop_last=False,
+    )
+    dl_iter = cycle(dataloader)
 
     # Create environment used for evaluating checkpoints during training on simulation data.
     # On real-world data, no need to create an environment as evaluations are done outside train.py,
