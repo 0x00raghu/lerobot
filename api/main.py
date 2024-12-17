@@ -22,7 +22,9 @@ robot_executor = RobotActionExecutor(BASE_PATH)
 # Define valid robot actions
 VALID_ROBOT_ACTIONS = {
     "testRobotAction": execute_test_action,
-    "pickRedCandy": robot_executor.execute_pick_red_candy
+    "pickCandyBlackArm": robot_executor.execute_pick_candy_black_arm,
+    "pickCandyOrangeArm": robot_executor.execute_pick_candy_orange_arm, 
+    "giveCandyToHand": robot_executor.execute_give_candy_to_hand
 }
 
 @app.get("/trigger-robot-action/{functionName}")
