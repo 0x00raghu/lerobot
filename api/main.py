@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # Initialize robot action executor
-BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+BASE_PATH = "/Users/raghuvamsivelagala/Desktop/lerobot"
 robot_executor = RobotActionExecutor(BASE_PATH)
 
 # Define valid robot actions
@@ -43,4 +43,7 @@ async def trigger_robot_action(functionName: str):
 
 if __name__ == "__main__":
     import uvicorn
+    print("Current working directory:", os.getcwd())
+    print("Base path:", BASE_PATH)
+    print("Full script path:", os.path.join(BASE_PATH, "lerobot/scripts/control_robot.py"))
     uvicorn.run(app, host="0.0.0.0", port=8000)
